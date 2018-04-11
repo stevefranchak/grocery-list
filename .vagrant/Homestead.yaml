@@ -1,0 +1,23 @@
+ip: 192.168.10.10
+memory: 2048
+cpus: 1
+provider: virtualbox
+authorize: ~/.ssh/id_rsa.pub
+keys:
+    - ~/.ssh/id_rsa
+folders:
+    -
+        map: ./
+        to: /home/vagrant/grocery-list
+sites:
+    -
+        map: grocery-list.app
+        to: /home/vagrant/grocery-list/public
+        type: "apache"
+        php: "5.6"
+databases:
+    - homestead
+ports:
+    -
+        send: 52698 #rmate default port
+        to: 52698
