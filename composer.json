@@ -1,0 +1,16 @@
+{
+    "name": "stevefranchak/grocery-list",
+    "description": "A multi-user grocery list Web app",
+    "authors": [
+        {
+            "name": "Steve Franchak",
+            "email": "stevefranchak@gmail.com"
+        }
+    ],
+    "type": "project",
+    "license": "MIT",
+    "require": {},
+    "require-dev": {
+        "laravel/homestead": "^7.3"
+    }
+}
