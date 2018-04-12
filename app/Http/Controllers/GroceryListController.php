@@ -14,7 +14,7 @@ class GroceryListController extends Controller
      */
     public function index()
     {
-        return (string) GroceryList::all();
+        return GroceryList::all();
     }
 
     /**
@@ -52,7 +52,7 @@ class GroceryListController extends Controller
      */
     public function show(GroceryList $groceryList)
     {
-        //
+        return $groceryList;
     }
 
     /**
@@ -75,7 +75,20 @@ class GroceryListController extends Controller
      */
     public function update(Request $request, GroceryList $groceryList)
     {
-        //
+        $validatedData = $this->validate($request, [
+            'name' => 'sometimes|required|max:255',
+            'for_store' => 'sometimes|max:255'
+        ]);
+
+        if ($request->has('name')) {
+            $groceryList->name = $request->name;
+        }
+
+        if ($request->exists('for_store')) {
+            $groceryList->for_store = $request->for_store;
+        }
+
+        $groceryList->save();
     }
 
     /**
@@ -86,6 +99,6 @@ class GroceryListController extends Controller
      */
     public function destroy(GroceryList $groceryList)
     {
-        //
+        $groceryList->delete();
     }
 }
