@@ -9,8 +9,4 @@ require('./bootstrap');
 import angular from 'angular';
 require('./routes');
 
-var app = angular.module('mainApp', ['mainRoutes']);
- 
-app.controller('mainController', ['$scope', '$http', function($scope, $http) {
-    console.log('is this working?');
-}]);
+const app = angular.module('mainApp', ['mainRoutes']);
