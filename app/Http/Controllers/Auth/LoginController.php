@@ -21,18 +21,16 @@ class LoginController extends Controller
         $email = $request->get('email');
         $password = $request->get('password');
 
-        return $this->response($this->loginProxy->attemptLogin($email, $password));
+        return $this->loginProxy->attemptLogin($email, $password);
     }
 
     public function refresh(Request $request)
     {
-        return $this->response($this->loginProxy->attemptRefresh());
+        return $this->loginProxy->attemptRefresh();
     }
 
     public function logout()
     {
         $this->loginProxy->logout();
-
-        return $this->response(null, 204);
     }
 }

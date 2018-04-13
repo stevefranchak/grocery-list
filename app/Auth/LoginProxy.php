@@ -5,6 +5,7 @@ namespace App\Auth;
 use Illuminate\Foundation\Application;
 use App\Auth\Exceptions\InvalidCredentialsException;
 use App\User;
+use Illuminate\Http\Response;
 
 class LoginProxy
 {
@@ -23,7 +24,6 @@ class LoginProxy
     public function __construct(Application $app) {
         $this->apiConsumer = $app->make('apiconsumer');
         $this->auth = $app->make('auth');
-        $this->cookie = $app->make('cookie');
         $this->db = $app->make('db');
         $this->request = $app->make('request');
     }
@@ -83,21 +83,21 @@ class LoginProxy
 
         $data = json_decode($response->getContent());
 
-        // Create a refresh token cookie
-        $this->cookie->queue(
-            self::REFRESH_TOKEN,
-            $data->refresh_token,
-            864000, // 10 days
-            null,
-            null,
-            false,
-            true // HttpOnly
-        );
-
-        return [
+        $responseData = [
             'access_token' => $data->access_token,
             'expires_in' => $data->expires_in
         ];
+
+        return response($responseData, 200)
+            ->cookie( 
+                self::REFRESH_TOKEN,
+                $data->refresh_token,
+                864000, // 10 days
+                null,
+                null,
+                false,
+                true // HttpOnly);
+            );
     }
 
     /**
