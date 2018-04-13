@@ -6,6 +6,8 @@ use Illuminate\Foundation\Application;
 use App\Auth\Exceptions\InvalidCredentialsException;
 use App\User;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 
 class LoginProxy
 {
@@ -13,17 +15,12 @@ class LoginProxy
 
     private $apiConsumer;
 
-    private $auth;
-
-    private $cookie;
-
     private $db;
 
     private $request;
 
     public function __construct(Application $app) {
         $this->apiConsumer = $app->make('apiconsumer');
-        $this->auth = $app->make('auth');
         $this->db = $app->make('db');
         $this->request = $app->make('request');
     }
@@ -106,7 +103,7 @@ class LoginProxy
      */
     public function logout()
     {
-        $accessToken = $this->auth->user()->token();
+        $accessToken = $this->request->user()->token();
 
         $refreshToken = $this->db
             ->table('oauth_refresh_tokens')
@@ -117,6 +114,7 @@ class LoginProxy
 
         $accessToken->revoke();
 
-        $this->cookie->queue($this->cookie->forget(self::REFRESH_TOKEN));
+        //$this->cookie->queue($this->cookie->forget(self::REFRESH_TOKEN));
+        Cookie::queue(Cookie::forget(self::REFRESH_TOKEN));
     }
 }

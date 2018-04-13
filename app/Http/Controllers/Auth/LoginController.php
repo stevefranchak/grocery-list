@@ -29,7 +29,7 @@ class LoginController extends Controller
         return $this->loginProxy->attemptRefresh();
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
         $this->loginProxy->logout();
     }
